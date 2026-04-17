@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Furniture Store</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5f5f5;
+}
+
+header {
+    background: #5a3e2b;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav {
+    background: #3e2a1f;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.home-list{
+    padding:20px;
+    text-align:center;
+}
+
+.home-list a{
+    display:block;
+    padding:8px;
+    color:#5a3e2b;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+button {
+    background: #5a3e2b;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.card a{
+display:inline-block;
+margin-top:8px;
+padding:8px 12px;
+background:#ff9900;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
+
+#cart {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+#cart-box{
+    display:none;
+    position:fixed;
+    right:10px;
+    top:60px;
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+    width:230px;
+    max-height:300px;
+    overflow:auto;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Smart Space Furniture Store</h1>
+<p>Quality Furniture for Your Home</p>
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#products">Products</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<div id="cart" onclick="toggleCart()">
+Cart: <span id="cart-count">0</span>
+</div>
+
+<div id="cart-box">
+<h3>Your Cart</h3>
+<div id="cart-items">No items added</div>
+</div>
+
+<section id="home" class="home-list">
+<h2>Explore Our Furniture Collection</h2>
+<a href="#sofa">Sofa Set</a>
+<a href="#dining">Dining Table</a>
+<a href="#bed">Wooden Bed</a>
+<a href="#chair">Office Chair</a>
+<a href="#table">Coffee Table</a>
+<a href="#wardrobe">Wardrobe</a>
+<a href="#bookshelf">Bookshelf</a>
+<a href="#tvunit">TV Unit</a>
+</section>
+
+<section class="products" id="products">
+
+<div class="card" id="sofa">
+<img src="image/sofa.jpg">
+<h3>Sofa Set</h3>
+<p>₹25,000</p>
+<button onclick="addToCart('Sofa Set','image/sofa.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="dining">
+<img src="image/dinning.jpg">
+<h3>Dining Table</h3>
+<p>₹15,000</p>
+<button onclick="addToCart('Dining Table','image/dinning.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="bed">
+<img src="image/bed.jpg">
+<h3>Wooden Bed</h3>
+<p>₹30,000</p>
+<button onclick="addToCart('Wooden Bed','image/bed.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="chair">
+<img src="image/chair.jpg">
+<h3>Office Chair</h3>
+<p>₹5,000</p>
+<button onclick="addToCart('Office Chair','image/chair.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="table">
+<img src="image/table.jpg">
+<h3>Coffee Table</h3>
+<p>₹8,000</p>
+<button onclick="addToCart('Coffee Table','image/table.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="wardrobe">
+<img src="image/wardrobe.jpg">
+<h3>Wardrobe</h3>
+<p>₹20,000</p>
+<button onclick="addToCart('Wardrobe','image/wardrobe.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="bookshelf">
+<img src="image/bookshelf.jpg">
+<h3>Bookshelf</h3>
+<p>₹12,000</p>
+<button onclick="addToCart('Bookshelf','image/bookshelf.jpg')">Add to Cart</button>
+</div>
+
+<div class="card" id="tvunit">
+<img src="image/tvunit.jpg">
+<h3>TV Unit</h3>
+<p>₹18,000</p>
+<button onclick="addToCart('TV Unit','image/tvunit.jpg')">Add to Cart</button>
+</div>
+
+</section>
+
+<section id="contact" style="padding:20px; text-align:center;">
+<h2>Contact Us</h2>
+<p>Email: furniture@email.com</p>
+<p>Phone: +91 9876543210</p>
+</section>
+
+<script>
+let count = 0;
+let cartItems = [];
+
+function addToCart(name, image){
+    count++;
+    document.getElementById("cart-count").innerText = count;
+
+    cartItems.push({name, image});
+    displayCart();
+}
+
+function displayCart(){
+    let cartHTML = "";
+
+    cartItems.forEach(item =>{
+        cartHTML += 
+        <div style="display:flex; align-items:center; margin-bottom:10px;">
+            <img src="${item.image}" width="40" height="40" 
+            style="border-radius:5px; margin-right:8px;">
+            <span>${item.name}</span>
+        </div>;
+    });
+
+    document.getElementById("cart-items").innerHTML = cartHTML;
+}
+
+function toggleCart(){
+    let box = document.getElementById("cart-box");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+</script>
+
+</body>
+</html> 
